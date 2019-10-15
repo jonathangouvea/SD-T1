@@ -26,15 +26,23 @@ class TSTopico(TupleSpace):
 		TupleSpace.__init__(self)
 		self.id = 1
 		
-	def addTopico(self, titulo, descricao, autor):
-		self.put(self, (titulo, descricao, autor, self.id, time.time()))
+	def addTopico(self, titulo, autor, descricao):
+		self.put(self, (self.id, titulo, autor, descricao, time.time()))
 		self.id += 1
+		return self.id - 1
+		
+	def addTopicoId(self, id, titulo, autor, descricao):
+		self.put(self, (id, titulo, autor, descricao, time.time()))
 		
 	def getTopico(self, id):
-		return self.get(self, (None, None, None, id, None))
+		try:
+			T = self.queryTopico(id)[0]
+			return self.get(self, T)
+		except:
+			return
 		
 	def queryTopico(self, id):
-		return self.query(self, (None, None, None, id, None))
+		return self.query(self, (id, None, None, None, None))
 		
 	def queryTopicoAutor(self, nome):
 		return self.query(self, (None, None, nome, None, None))
@@ -47,6 +55,7 @@ class TSComentario(TupleSpace):
 	def addComentario(self, idTopico, autor, comentario):
 		self.put(self, (idTopico, id, autor, comentario, time.time()))
 		self.id += 1
+		return self.id - 1
 		
 	def getComentario(self, id):
 		return self.get(self, (None, id, None, None, None))
