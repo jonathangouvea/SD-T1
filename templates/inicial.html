@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+
+	<div class="bg-blue-600 h-screen w-screen">
+    	<div class="flex flex-col items-center flex-1 h-full justify-center px-4 sm:px-0 mx-8">
+    		<div class="flex rounded shadow-lg bg-white w-full p-2 mx-8">
+    			
+    			<div class="w-full lg:w-1/5 lg:px-2 text-gray-700 leading-normal align-middle">
+    			
+    				<div class="bg-cover bg-center w-40 h-40 rounded-full mr-3 align-middle" style="background-image: url('https://ui-avatars.com/api?background=0D8ABC&color=fff&size=512&name={{ session['nome'] }}&.png')"> 
+    				</div>
+    			
+    				<p class="text-2xl font-bold text-gray-900">{{ session['nome'] }}</p>
+    				<div class="flex justify-between pt-2 pb-4">
+    					<div></div>
+    					<div>
+    						<p class="text-gray-500">{{ session['username'] }}</p>
+						</div>
+					</div>
+    				
+    				
+    			</div>
+    			
+    			<div class="w-full lg:w-4/5 p-8 mt-2 lg:mt-0 text-gray-900 leading-normal bg-white">
+    				<h1 class="text-blue-500 font-sans break-normal text-lg">Postagens recentes</h1>
+    				...
+    			</div>
+    			
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
