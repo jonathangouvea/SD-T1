@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo -e "\n\033[1mPOST"
+curl -i -H "Content-Type: application/json" -X POST -d '{"username":"teste", "nome":"Teste da Silva"}' http://localhost:5000/api/user
+curl -i -H "Content-Type: application/json" -X POST -d '{"username":"teste2", "nome":"Teste Gouvea"}' http://localhost:5000/api/user
+curl -i -H "Content-Type: application/json" -X POST -d '{"username":"jonathan", "nome":"Jonathan Gouvea"}' http://localhost:5000/api/user
+
+echo -e "\n\033[1mGET"
+curl -i http://localhost:5000/api/user
+curl -i http://localhost:5000/api/user/teste
+
+echo -e "\n\033[1mDELETE"
+curl -i -X DELETE http://localhost:5000/api/user/teste2
+
+echo -e "\n\033[1mPUT"
+curl -i -H "Content-Type: application/json" -X PUT -d '{"nome":"O TESTE"}' http://localhost:5000/api/user/teste
+
+echo -e "\n"
+curl -i http://localhost:5000/api/user
