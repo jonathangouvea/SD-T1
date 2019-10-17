@@ -28,7 +28,6 @@ class TupleSpace():
 				resposta.append(t)
 			print(" ")
 		return resposta
-		#return [t for t in self._tuplas if self._match(t[1], tupla[1])]
 		
 	def _match(self, t, tupla):
 		print("\t\t>> MATCH {0} -> {1}".format(t, tupla), end = '\t')

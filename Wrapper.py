@@ -1,5 +1,8 @@
 from TupleSpace import *
-import time
+from time import localtime, strftime
+
+def tempo():
+	return strftime('%m/%d - %H:%M', localtime())
 
 class TSUser(TupleSpace):
 	def __init__(self):
@@ -27,12 +30,12 @@ class TSTopico(TupleSpace):
 		self.id = 1
 		
 	def addTopico(self, titulo, autor, descricao):
-		self.put(self, (self.id, titulo, autor, descricao, time.time()))
+		self.put(self, (self.id, titulo, autor, descricao, tempo()))
 		self.id += 1
 		return self.id - 1
 		
 	def addTopicoId(self, id, titulo, autor, descricao):
-		self.put(self, (id, titulo, autor, descricao, time.time()))
+		self.put(self, (id, titulo, autor, descricao, tempo()))
 		
 	def getTopico(self, id):
 		try:
@@ -53,12 +56,23 @@ class TSComentario(TupleSpace):
 		self.id = 1
 		
 	def addComentario(self, idTopico, autor, comentario):
-		self.put(self, (idTopico, id, autor, comentario, time.time()))
+		self.put(self, (idTopico, self.id, autor, comentario, tempo()))
 		self.id += 1
 		return self.id - 1
 		
 	def getComentario(self, id):
-		return self.get(self, (None, id, None, None, None))
+		try:
+			T = self.queryComentarioTopico(id)[0]
+			return self.get(self, T)
+		except:
+			return
+			
+	def getComentarioEspecifico(self, id):
+		try:
+			T = self.query(self, (None, id, None, None, None))[0]
+			return self.get(self, T)
+		except:
+			return
 		
 	def queryComentarioTopico(self, idTopico):
 		return self.query(self, (idTopico, None, None, None, None))

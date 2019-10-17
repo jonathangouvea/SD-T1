@@ -5,6 +5,7 @@ if [ $1 == 'user' ]; then
 	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"teste", "nome":"Teste da Silva"}' http://localhost:5000/api/user
 	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"teste2", "nome":"Teste Gouvea"}' http://localhost:5000/api/user
 	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"jonathan", "nome":"Jonathan Gouvea"}' http://localhost:5000/api/user
+	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"fredy", "nome":"Fredy Valente"}' http://localhost:5000/api/user
 
 	echo -e "\n\033[1mGET"
 	curl -i http://localhost:5000/api/user
@@ -14,7 +15,7 @@ if [ $1 == 'user' ]; then
 	curl -i -X DELETE http://localhost:5000/api/user/teste2
 
 	echo -e "\n\033[1mPUT"
-	curl -i -H "Content-Type: application/json" -X PUT -d '{"nome":"O TESTE"}' http://localhost:5000/api/user/teste
+	curl -i -H "Content-Type: application/json" -X PUT -d '{"nome":"Teste renomeado"}' http://localhost:5000/api/user/teste
 
 	echo -e "\n"
 	curl -i http://localhost:5000/api/user
@@ -22,20 +23,36 @@ fi
 
 if [ $1 == 'topico' ]; then
 	echo -e "\n\033[1mPOST"
-	curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"REST", "autor":"Teste", "descricao":"Uma introdução à REST API"}' http://localhost:5000/api/topico
-	curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"Java", "autor":"Jonathan", "descricao":"Bomba!"}' http://localhost:5000/api/topico
-	curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"Python", "autor":"Teste", "descricao":"Um hino"}' http://localhost:5000/api/topico
+	curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"REST API", "autor":"fredy", "descricao":"Uma introdução à REST API"}' http://localhost:5000/api/topico
+	curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"Java", "autor":"jonathan", "descricao":"Uma linguagem de programação"}' http://localhost:5000/api/topico
+	curl -i -H "Content-Type: application/json" -X POST -d '{"titulo":"Python", "autor":"jonathan", "descricao":"Outra linguagem de programação"}' http://localhost:5000/api/topico
 
 	echo -e "\n\033[1mGET"
 	curl -i http://localhost:5000/api/topico
-	curl -i http://localhost:5000/api/topico/1
-	curl -i http://localhost:5000/api/topico_autor/Jonathan
+	curl -i http://localhost:5000/api/topico/jonathan
 
 	echo -e "\n\033[1mDELETE"
 	curl -i -X DELETE http://localhost:5000/api/topico/2
 
 	echo -e "\n\033[1mPUT"
-	curl -i -H "Content-Type: application/json" -X PUT -d '{"autor":"Jonathan"}' http://localhost:5000/api/topico/3
+	curl -i -H "Content-Type: application/json" -X PUT -d '{"autor":"fredy"}' http://localhost:5000/api/topico/3
+
+	echo -e "\n"
+	curl -i http://localhost:5000/api/topico
+fi
+
+if [ $1 == 'comentario' ]; then
+	echo -e "\n\033[1mCOMENTARIO"
+	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"jonathan", "comentario":"Um ótimo texto!"}' http://localhost:5000/api/comentario/1
+	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"jonathan", "comentario":"Extremamente interessante!"}' http://localhost:5000/api/comentario/3
+	curl -i -H "Content-Type: application/json" -X POST -d '{"username":"jonathan", "comentario":"Parabéns!"}' http://localhost:5000/api/comentario/1
+	
+	echo -e "\n\033[1mGET"
+	curl -i http://localhost:5000/api/comentario
+	curl -i http://localhost:5000/api/comentario/1
+
+	echo -e "\n\033[1mDELETE"
+	curl -i -X DELETE http://localhost:5000/api/comentario/2
 
 	echo -e "\n"
 	curl -i http://localhost:5000/api/topico

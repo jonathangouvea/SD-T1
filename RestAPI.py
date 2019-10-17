@@ -105,23 +105,8 @@ def get_topicos():
         })
     return jsonify({'topicos': tuplas_json})
     
-@app.route('/api/topico/<int:id>', methods=['GET'])
-def get_topico(id):
-    print("## GET_TOPICO ID#{0}".format(id))
-    tuplas = tsTopico.queryTopico(id)
-    tuplas_json = []
-    for t in tuplas:
-        tuplas_json.append({
-            'id': t[1][0],
-            'titulo': t[1][1],
-            'autor': t[1][2],
-            'descricao': t[1][3],
-            'time': t[1][4]
-        })
-    return jsonify({'topicos': tuplas_json})
-    
-@app.route('/api/topico_autor/<autor>', methods=['GET'])
-def get_topico_autor(autor):
+@app.route('/api/topico/<autor>', methods=['GET'])
+def get_topico(autor):
     print("## GET_TOPICO AUTOR {0}".format(autor))
     tuplas = tsTopico.queryTopicoAutor(autor)
     tuplas_json = []
@@ -196,6 +181,69 @@ def delete_topico(id):
     return jsonify({'topicos': tuplas_json})
     
 ###
+
+@app.route('/api/comentario', methods=['GET'])
+def get_comentarios():
+    print("## GET_COMENTARIOS")
+    tuplas = tsComentario.queryComentarioTopico(None)
+    tuplas_json = []
+    for t in tuplas:
+        tuplas_json.append({
+            'idTopico': t[1][0], 
+            'id': t[1][1],
+            'autor': t[1][2],
+            'comentario': t[1][3],
+            'time': t[1][4]
+        })
+    return jsonify({'comentarios': tuplas_json})
+
+@app.route('/api/comentario/<int:id>', methods=['GET'])
+def get_comentario(id):
+    print("## GET_COMENTARIO TOPICO_ID#{0}".format(id))
+    tuplas = tsComentario.queryComentarioTopico(id)
+    tuplas_json = []
+    for t in tuplas:
+        tuplas_json.append({
+            'idTopico': t[1][0], 
+            'id': t[1][1],
+            'autor': t[1][2],
+            'comentario': t[1][3],
+            'time': t[1][4]
+        })
+    return jsonify({'comentarios': tuplas_json})
+    
+@app.route('/api/comentario/<int:idTopico>', methods=['POST'])
+def post_comentario(idTopico):
+    if not request.json or not 'comentario' in request.json:
+        abort(400)
+    print("## POST_COMENTARIO ({2}, id, {0}, {1})".format(request.json['username'], request.json['comentario'], idTopico))
+    id = tsComentario.addComentario(idTopico, request.json['username'], request.json['comentario'])
+    novoComentario = {
+        'idTopico': idTopico, 
+        'id': id,
+        'autor': request.json['username'],
+        'comentario': request.json['comentario'],
+        'time': '0'
+    }
+    
+    return jsonify({'comentarios': novoTopico})
+    
+@app.route('/api/comentario/<int:id>', methods=['DELETE'])
+def delete_comentario(id):
+    print("## DELETE_COMENTARIO ID#{0}".format(id))    
+    tuplas = [tsTopico.getComentarioEspecifico(id)]
+    if tuplas == [None]:
+        return not_found(404)
+    tuplas_json = []
+    for t in tuplas:
+        tuplas_json.append({
+            'idTopico': t[1][0], 
+            'id': t[1][1],
+            'autor': t[1][2],
+            'comentario': t[1][3],
+            'time': t[1][4]
+        })
+    return jsonify({'comentarios': tuplas_json})
 
 @app.errorhandler(404)
 def not_found(error):
